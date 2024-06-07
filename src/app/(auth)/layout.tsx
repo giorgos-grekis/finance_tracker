@@ -1,4 +1,4 @@
-import Logo from "@/components/logo";
+import { Logo } from "@/components/logo";
 import type { PropsWithChildren } from "react";
 
 const Layout = ({ children }: PropsWithChildren) => {
