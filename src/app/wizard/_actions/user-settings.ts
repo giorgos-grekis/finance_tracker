@@ -1,5 +1,4 @@
 "use server";
-
 import prisma from "@/lib/db";
 import { UpdateUserCurrencySchema } from "@/schema/user-settings";
 import { currentUser } from "@clerk/nextjs/server";
@@ -15,7 +14,6 @@ export async function UpdateUserCurrency(currency: string) {
   }
 
   const user = await currentUser();
-
   if (!user) {
     redirect("/sign-in");
   }

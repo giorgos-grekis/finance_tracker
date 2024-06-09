@@ -18,7 +18,6 @@ const RootProviders = ({ children }: PropsWithChildren) => {
       >
         {children}
       </ThemeProvider>
-
       <ReactQueryDevtools initialIsOpen={false} />
     </QueryClientProvider>
   );
