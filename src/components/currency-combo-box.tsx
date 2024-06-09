@@ -1,4 +1,5 @@
 "use client";
+import { Currencies, type Currency } from "@/lib/currencies";
 import { useMediaQuery } from "@/hooks/use-media-query";
 import { Button } from "@/components/ui/button";
 import {
@@ -17,49 +18,21 @@ import {
 } from "@/components/ui/popover";
 import { useState } from "react";
 
-type Status = {
-  value: string;
-  label: string;
-};
-
-const statuses: Status[] = [
-  {
-    value: "backlog",
-    label: "Backlog",
-  },
-  {
-    value: "todo",
-    label: "Todo",
-  },
-  {
-    value: "in progress",
-    label: "In Progress",
-  },
-  {
-    value: "done",
-    label: "Done",
-  },
-  {
-    value: "canceled",
-    label: "Canceled",
-  },
-];
-
 export function CurrencyComboBox() {
   const [open, setOpen] = useState(false);
   const isDesktop = useMediaQuery("(min-width: 768px)");
-  const [selectedStatus, setSelectedStatus] = useState<Status | null>(null);
+  const [selectedOption, setSelectedOption] = useState<Currency | null>(null);
 
   if (isDesktop) {
     return (
       <Popover open={open} onOpenChange={setOpen}>
         <PopoverTrigger asChild>
-          <Button variant="outline" className="w-[150px] justify-start">
-            {selectedStatus ? <>{selectedStatus.label}</> : <>+ Set status</>}
+          <Button variant="outline" className="w-full justify-start">
+            {selectedOption ? <>{selectedOption.label}</> : <>+ Set currency</>}
           </Button>
         </PopoverTrigger>
         <PopoverContent className="w-[200px] p-0" align="start">
-          <StatusList setOpen={setOpen} setSelectedStatus={setSelectedStatus} />
+          <OptionList setOpen={setOpen} setSelectedOption={setSelectedOption} />
         </PopoverContent>
       </Popover>
     );
@@ -68,44 +41,45 @@ export function CurrencyComboBox() {
   return (
     <Drawer open={open} onOpenChange={setOpen}>
       <DrawerTrigger asChild>
-        <Button variant="outline" className="w-[150px] justify-start">
-          {selectedStatus ? <>{selectedStatus.label}</> : <>+ Set status</>}
+        <Button variant="outline" className="w-full justify-start">
+          {selectedOption ? <>{selectedOption.label}</> : <>+ Set currency</>}
         </Button>
       </DrawerTrigger>
       <DrawerContent>
         <div className="mt-4 border-t">
-          <StatusList setOpen={setOpen} setSelectedStatus={setSelectedStatus} />
+          <OptionList setOpen={setOpen} setSelectedOption={setSelectedOption} />
         </div>
       </DrawerContent>
     </Drawer>
   );
 }
 
-function StatusList({
+function OptionList({
   setOpen,
-  setSelectedStatus,
+  setSelectedOption,
 }: {
   setOpen: (open: boolean) => void;
-  setSelectedStatus: (status: Status | null) => void;
+  setSelectedOption: (status: Currency | null) => void;
 }) {
   return (
     <Command>
-      <CommandInput placeholder="Filter status..." />
+      <CommandInput placeholder="Filter currency..." />
       <CommandList>
         <CommandEmpty>No results found.</CommandEmpty>
         <CommandGroup>
-          {statuses.map((status) => (
+          {Currencies.map((currenncy: Currency) => (
             <CommandItem
-              key={status.value}
-              value={status.value}
+              key={currenncy.value}
+              value={currenncy.value}
               onSelect={(value) => {
-                setSelectedStatus(
-                  statuses.find((priority) => priority.value === value) || null
+                setSelectedOption(
+                  Currencies.find((priority) => priority.value === value) ||
+                    null
                 );
                 setOpen(false);
               }}
             >
-              {status.label}
+              {currenncy.label}
             </CommandItem>
           ))}
         </CommandGroup>
