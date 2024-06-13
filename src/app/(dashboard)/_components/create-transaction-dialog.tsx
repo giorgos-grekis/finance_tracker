@@ -44,7 +44,7 @@ const CreateTransactionDialog = ({ trigger, type }: Props) => {
   const [open, setOpen] = useState(false);
 
   return (
-    <Dialog open={true}>
+    <Dialog open={true} onOpenChange={setOpen}>
       <DialogTitle asChild>{trigger}</DialogTitle>
       <DialogContent>
         <DialogHeader>
